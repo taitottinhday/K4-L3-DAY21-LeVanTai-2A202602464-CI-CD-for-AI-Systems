@@ -16,6 +16,8 @@ REGION = "ap-southeast-1"
 ACCOUNT = "513594860142"
 BUCKET = "income-cicd-513594860142-20261007"
 REPO = "taitottinhday/K4-L3-DAY21-LeVanTai-2A202602464-CI-CD-for-AI-Systems"
+# GitHub's repository OIDC API reports an immutable subject for this repository.
+OIDC_SUBJECT_PREFIX = "repo:taitottinhday@145837513/K4-L3-DAY21-LeVanTai-2A202602464-CI-CD-for-AI-Systems@1408199921"
 EC2_ROLE = "income-api-ec2"
 CI_ROLE = "income-cicd-github"
 ROOT = Path(__file__).resolve().parents[1]
@@ -66,7 +68,7 @@ def roles(sess):
             "Action": "sts:AssumeRoleWithWebIdentity",
             "Condition": {"StringEquals": {
                 "token.actions.githubusercontent.com:aud": "sts.amazonaws.com",
-                "token.actions.githubusercontent.com:sub": f"repo:{REPO}:ref:refs/heads/main",
+                "token.actions.githubusercontent.com:sub": f"{OIDC_SUBJECT_PREFIX}:ref:refs/heads/main",
             }},
         }]},
     }
