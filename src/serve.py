@@ -1,40 +1,60 @@
 from fastapi import FastAPI, HTTPException
-from pydantic import BaseModel
-from google.cloud import storage
+from pydantic import BaseModel, FiniteFloat
+import boto3
+from contextlib import asynccontextmanager
+from pathlib import Path
+import pandas as pd
 import joblib
 import os
 
-app = FastAPI()
-
 ARTIFACT_BUCKET = os.getenv("ARTIFACT_BUCKET")
+AWS_REGION = os.getenv("AWS_REGION", "ap-southeast-1")
 MODEL_KEY = "artifacts/current/model.joblib"
-MODEL_PATH = os.path.expanduser("~/models/model.joblib")
+MODEL_PATH = os.path.expanduser(os.getenv("MODEL_PATH", "~/models/model.joblib"))
+model = None
+_s3_client = None
+
+
+def get_s3_client():
+    global _s3_client
+    if _s3_client is None:
+        _s3_client = boto3.client("s3", region_name=AWS_REGION)
+    return _s3_client
 
 
 def download_model():
     """
     Tai file model.joblib tu cloud storage ve may khi server khoi dong.
 
-    Ham nay duoc goi mot lan khi module duoc import. Su dung
-    GOOGLE_APPLICATION_CREDENTIALS de xac thuc (duoc dat trong systemd service).
+    Ham nay duoc goi trong FastAPI lifespan. Tren EC2, boto3 su dung
+    credential tam thoi tu IAM instance profile.
     """
     if not ARTIFACT_BUCKET:
         raise RuntimeError("ARTIFACT_BUCKET is not configured")
 
     os.makedirs(os.path.dirname(MODEL_PATH), exist_ok=True)
-    client = storage.Client()
-    bucket = client.bucket(ARTIFACT_BUCKET)
-    blob = bucket.blob(MODEL_KEY)
-    blob.download_to_filename(MODEL_PATH)
+    get_s3_client().download_file(ARTIFACT_BUCKET, MODEL_KEY, MODEL_PATH)
     print("Model da duoc tai xuong tu cloud storage.")
 
 
-download_model()
-model = joblib.load(MODEL_PATH)
+@asynccontextmanager
+async def lifespan(app):
+    global model
+    if os.getenv("LOCAL_MODEL_PATH"):
+        model_path = Path(os.environ["LOCAL_MODEL_PATH"])
+        print(f"Loading local model: {model_path}")
+    else:
+        download_model()
+        model_path = Path(MODEL_PATH)
+    model = joblib.load(model_path)
+    yield
+
+
+app = FastAPI(title="Adult Income API", lifespan=lifespan)
 
 
 class ScoreRequest(BaseModel):
-    features: list[float]
+    features: list[FiniteFloat]
 
 
 @app.get("/healthz")
@@ -45,6 +65,8 @@ def healthz():
 
     Tra ve: {"status": "ok"}
     """
+    if model is None:
+        raise HTTPException(status_code=503, detail="Model is not ready")
     return {"status": "ok"}
 
 
@@ -66,7 +88,11 @@ def score(req: ScoreRequest):
             detail="Expected 10 features (adult income)",
         )
 
-    prediction = int(model.predict([req.features])[0])
+    if model is None:
+        raise HTTPException(status_code=503, detail="Model is not ready")
+    columns = getattr(model, "feature_names_in_", None)
+    features = pd.DataFrame([req.features], columns=columns)
+    prediction = int(model.predict(features)[0])
     label = "thu_nhap_cao" if prediction == 1 else "thu_nhap_thap"
     return {"prediction": prediction, "label": label}
 

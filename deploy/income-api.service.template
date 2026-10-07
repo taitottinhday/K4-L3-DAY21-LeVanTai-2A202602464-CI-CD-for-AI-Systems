@@ -1,0 +1,15 @@
+[Unit]
+Description=Adult Income FastAPI
+After=network-online.target
+Wants=network-online.target
+
+[Service]
+User=USER_NAME
+WorkingDirectory=/home/USER_NAME/income-lab
+EnvironmentFile=/home/USER_NAME/income-lab/.env
+ExecStart=/home/USER_NAME/income-lab/.venv/bin/python -m uvicorn src.serve:app --host 0.0.0.0 --port 8080
+Restart=on-failure
+RestartSec=5
+
+[Install]
+WantedBy=multi-user.target

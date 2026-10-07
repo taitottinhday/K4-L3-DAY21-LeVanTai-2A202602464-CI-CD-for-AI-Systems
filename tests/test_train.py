@@ -2,6 +2,7 @@ import os
 import json
 import numpy as np
 import pandas as pd
+import pytest
 from src.train import train
 
 
@@ -9,6 +10,13 @@ FEATURE_NAMES = [
     "age", "workclass", "education_num", "marital_status", "occupation",
     "relationship", "sex", "capital_gain", "capital_loss", "hours_per_week",
 ]
+
+
+@pytest.fixture(autouse=True)
+def isolated_tracking(tmp_path, monkeypatch):
+    monkeypatch.chdir(tmp_path)
+    monkeypatch.setenv("MLFLOW_TRACKING_URI", (tmp_path / "mlruns").as_uri())
+    monkeypatch.setenv("MLFLOW_EXPERIMENT_NAME", "unit-tests")
 
 
 def _make_temp_data(tmp_path):
@@ -49,7 +57,7 @@ def test_train_returns_float(tmp_path):
     assert 0.0 <= f1 <= 1.0
 
 
-def test_report_file_created(tmp_path):
+def test_report_file_created(tmp_path, capsys):
     """Kiem tra file outputs/report.json duoc tao sau khi huan luyen."""
     train_path, eval_path = _make_temp_data(tmp_path)
     train(
@@ -63,6 +71,17 @@ def test_report_file_created(tmp_path):
         report = json.load(f)
     assert "f1_score" in report
     assert "accuracy" in report
+    assert len(report["confusion_matrix"]) == 2
+    assert sum(map(sum, report["confusion_matrix"])) == 40
+    assert report["train_samples"] == 160
+    assert report["best_f1_score"] >= report["f1_score"]
+    with open("outputs/thresholds.json", encoding="utf-8") as f:
+        sweep = json.load(f)
+    assert len(sweep) == 17
+    assert sweep[0]["threshold"] == 0.1
+    assert sweep[-1]["threshold"] == 0.9
+    assert os.path.exists("outputs/detail.txt")
+    assert "DATA DRIFT" in capsys.readouterr().out
 
 
 def test_model_file_created(tmp_path):

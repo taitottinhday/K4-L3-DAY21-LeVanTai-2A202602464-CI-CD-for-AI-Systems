@@ -5,9 +5,11 @@ import yaml
 import json
 import joblib
 import os
+from pathlib import Path
 from sklearn.ensemble import GradientBoostingClassifier
 from sklearn.metrics import (
     accuracy_score,
+    classification_report,
     confusion_matrix,
     f1_score,
     precision_score,
@@ -25,6 +27,8 @@ def train(
     params: dict,
     data_path: str = "data/train_batch1.csv",
     eval_path: str = "data/holdout.csv",
+    output_dir: str = "outputs",
+    model_dir: str = "models",
 ) -> float:
     """
     Huan luyen mo hinh va ghi nhan ket qua vao MLflow.
@@ -46,10 +50,21 @@ def train(
     X_eval = df_eval.drop(columns=["target"])
     y_eval = df_eval["target"]
 
-    mlflow.set_experiment("adult-income-classification")
+    positive_rate = float(y_train.mean())
+    drift_delta = abs(positive_rate - BASELINE_POSITIVE_RATE)
+    drift_warning = drift_delta > 0.05
+    print(f"Positive rate: {positive_rate:.2%}; drift: {drift_delta:.2%}")
+    if drift_warning:
+        print("WARNING: DATA DRIFT exceeds 5 percentage points from 24.8%.")
+
+    mlflow.set_experiment(
+        os.getenv("MLFLOW_EXPERIMENT_NAME", "adult-income-classification")
+    )
 
     with mlflow.start_run():
         mlflow.log_params(params)
+        mlflow.log_metric("train_samples", len(df_train))
+        mlflow.log_metric("eval_samples", len(df_eval))
 
         model = GradientBoostingClassifier(**params, random_state=42)
         model.fit(X_train, y_train)
@@ -63,18 +78,29 @@ def train(
 
         # Bonus 2: tìm ngưỡng xác suất tốt hơn ngưỡng mặc định 0.5.
         threshold_results = []
-        for threshold in [i / 10 for i in range(1, 10)]:
+        for threshold in [i / 100 for i in range(10, 91, 5)]:
             threshold_preds = (probabilities >= threshold).astype(int)
             threshold_results.append(
-                (float(f1_score(y_eval, threshold_preds)), threshold)
+                (float(f1_score(y_eval, threshold_preds, zero_division=0)), threshold)
             )
         best_f1, best_threshold = max(threshold_results)
 
         # Bonus 5: theo dõi tỷ lệ lớp dương so với mốc của bộ Adult.
-        positive_rate = float(y_train.mean())
-        drift_delta = abs(positive_rate - BASELINE_POSITIVE_RATE)
-        drift_warning = drift_delta > 0.05
-        matrix = confusion_matrix(y_eval, preds).tolist()
+        matrix = confusion_matrix(y_eval, preds, labels=[0, 1]).tolist()
+        class_report = classification_report(
+            y_eval,
+            preds,
+            labels=[0, 1],
+            target_names=["class_0", "class_1"],
+            zero_division=0,
+        )
+        detail = (
+            "Confusion matrix (rows=true, columns=predicted; labels=0,1):\n"
+            f"{matrix}\n\n{class_report}\n"
+            f"Default threshold=0.5: F1={f1:.6f}\n"
+            f"Best holdout threshold={best_threshold:.2f}: F1={best_f1:.6f}\n"
+            "Threshold tuning uses this holdout; confirm on unseen data before production.\n"
+        )
 
         mlflow.log_metric("f1_score", f1)
         mlflow.log_metric("accuracy", acc)
@@ -85,11 +111,16 @@ def train(
         mlflow.log_metric("positive_rate", positive_rate)
         mlflow.log_metric("drift_delta", drift_delta)
         mlflow.set_tag("data_drift_warning", str(drift_warning).lower())
-        mlflow.sklearn.log_model(model, "model")
+        mlflow.sklearn.log_model(
+            model,
+            "model",
+            pip_requirements=["scikit-learn==1.4.2", "pandas==2.2.2", "joblib==1.4.2"],
+        )
 
         print(f"F1: {f1:.4f} | Accuracy: {acc:.4f}")
 
-        os.makedirs("outputs", exist_ok=True)
+        output_path = Path(output_dir)
+        output_path.mkdir(parents=True, exist_ok=True)
         report = {
             "f1_score": f1,
             "accuracy": acc,
@@ -101,13 +132,23 @@ def train(
             "drift_delta": drift_delta,
             "drift_warning": drift_warning,
             "confusion_matrix": matrix,
+            "train_samples": len(df_train),
+            "eval_samples": len(df_eval),
         }
-        with open("outputs/report.json", "w", encoding="utf-8") as f:
+        with (output_path / "report.json").open("w", encoding="utf-8") as f:
             json.dump(report, f, indent=2)
+        with (output_path / "detail.txt").open("w", encoding="utf-8") as f:
+            f.write(detail)
+        sweep = [{"threshold": t, "f1_score": score} for score, t in threshold_results]
+        with (output_path / "thresholds.json").open("w", encoding="utf-8") as f:
+            json.dump(sweep, f, indent=2)
         mlflow.log_text(json.dumps(report, indent=2), "metrics/bonus_metrics.json")
+        mlflow.log_text(detail, "metrics/detail.txt")
+        mlflow.log_text(json.dumps(sweep, indent=2), "metrics/thresholds.json")
 
-        os.makedirs("models", exist_ok=True)
-        joblib.dump(model, "models/model.joblib")
+        model_path = Path(model_dir)
+        model_path.mkdir(parents=True, exist_ok=True)
+        joblib.dump(model, model_path / "model.joblib")
 
     return f1
 
