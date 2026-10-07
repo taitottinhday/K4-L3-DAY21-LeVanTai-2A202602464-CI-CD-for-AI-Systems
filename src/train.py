@@ -6,12 +6,19 @@ import json
 import joblib
 import os
 from sklearn.ensemble import GradientBoostingClassifier
-from sklearn.metrics import accuracy_score, f1_score
+from sklearn.metrics import (
+    accuracy_score,
+    confusion_matrix,
+    f1_score,
+    precision_score,
+    recall_score,
+)
 
 # Nguong chat luong cua lab nay la f1_score, KHONG phai accuracy.
 # Ly do: bo du lieu Adult co ty le lop 75/25. Mot mo hinh doan bua
 # "thu nhap thap" cho moi mau da dat accuracy 0.75 ma khong hoc duoc gi.
 F1_THRESHOLD = 0.65
+BASELINE_POSITIVE_RATE = 0.248
 
 
 def train(
@@ -31,55 +38,78 @@ def train(
         f1 (float): diem F1 cua lop duong (thu nhap > 50K) tren tap holdout.
     """
 
-    # TODO 1: Doc du lieu huan luyen va danh gia
-    # df_train = ...
-    # df_eval  = ...
+    df_train = pd.read_csv(data_path)
+    df_eval = pd.read_csv(eval_path)
 
-    # TODO 2: Tach dac trung (X) va nhan (y)
-    # X_train = df_train.drop(columns=["target"])
-    # y_train = ...
-    # X_eval  = ...
-    # y_eval  = ...
+    X_train = df_train.drop(columns=["target"])
+    y_train = df_train["target"]
+    X_eval = df_eval.drop(columns=["target"])
+    y_eval = df_eval["target"]
+
+    mlflow.set_experiment("adult-income-classification")
 
     with mlflow.start_run():
+        mlflow.log_params(params)
 
-        # TODO 3: Ghi nhan cac sieu tham so
-        # mlflow.log_params(...)
+        model = GradientBoostingClassifier(**params, random_state=42)
+        model.fit(X_train, y_train)
 
-        # TODO 4: Khoi tao va huan luyen GradientBoostingClassifier
-        # Goi y: su dung random_state=42 de dam bao tinh tai tao
-        # model = GradientBoostingClassifier(...)
-        # model.fit(...)
+        preds = model.predict(X_eval)
+        probabilities = model.predict_proba(X_eval)[:, 1]
+        f1 = float(f1_score(y_eval, preds))
+        acc = float(accuracy_score(y_eval, preds))
+        precision = float(precision_score(y_eval, preds, zero_division=0))
+        recall = float(recall_score(y_eval, preds, zero_division=0))
 
-        # TODO 5: Du doan tren tap holdout va tinh chi so
-        # Chu y: f1_score o day tinh cho LOP DUONG (target = 1), khong dung average.
-        # preds = ...
-        # f1    = f1_score(...)
-        # acc   = accuracy_score(...)
+        # Bonus 2: tìm ngưỡng xác suất tốt hơn ngưỡng mặc định 0.5.
+        threshold_results = []
+        for threshold in [i / 10 for i in range(1, 10)]:
+            threshold_preds = (probabilities >= threshold).astype(int)
+            threshold_results.append(
+                (float(f1_score(y_eval, threshold_preds)), threshold)
+            )
+        best_f1, best_threshold = max(threshold_results)
 
-        # TODO 6: Ghi nhan chi so vao MLflow
-        # mlflow.log_metric("f1_score", ...)
-        # mlflow.log_metric("accuracy", ...)
-        # mlflow.sklearn.log_model(model, "model")
+        # Bonus 5: theo dõi tỷ lệ lớp dương so với mốc của bộ Adult.
+        positive_rate = float(y_train.mean())
+        drift_delta = abs(positive_rate - BASELINE_POSITIVE_RATE)
+        drift_warning = drift_delta > 0.05
+        matrix = confusion_matrix(y_eval, preds).tolist()
 
-        # TODO 7: In ket qua ra man hinh
-        # print(f"F1: {f1:.4f} | Accuracy: {acc:.4f}")
+        mlflow.log_metric("f1_score", f1)
+        mlflow.log_metric("accuracy", acc)
+        mlflow.log_metric("precision", precision)
+        mlflow.log_metric("recall", recall)
+        mlflow.log_metric("best_threshold", best_threshold)
+        mlflow.log_metric("best_f1_score", best_f1)
+        mlflow.log_metric("positive_rate", positive_rate)
+        mlflow.log_metric("drift_delta", drift_delta)
+        mlflow.set_tag("data_drift_warning", str(drift_warning).lower())
+        mlflow.sklearn.log_model(model, "model")
 
-        # TODO 8: Luu metrics ra file outputs/report.json
-        # File nay duoc doc boi GitHub Actions o Buoc 2
-        # os.makedirs("outputs", exist_ok=True)
-        # with open("outputs/report.json", "w") as f:
-        #     json.dump({"f1_score": f1, "accuracy": acc}, f)
+        print(f"F1: {f1:.4f} | Accuracy: {acc:.4f}")
 
-        # TODO 9: Luu mo hinh ra file models/model.joblib
-        # File nay duoc upload len cloud storage o Buoc 2
-        # os.makedirs("models", exist_ok=True)
-        # joblib.dump(model, "models/model.joblib")
+        os.makedirs("outputs", exist_ok=True)
+        report = {
+            "f1_score": f1,
+            "accuracy": acc,
+            "precision": precision,
+            "recall": recall,
+            "best_threshold": best_threshold,
+            "best_f1_score": best_f1,
+            "positive_rate": positive_rate,
+            "drift_delta": drift_delta,
+            "drift_warning": drift_warning,
+            "confusion_matrix": matrix,
+        }
+        with open("outputs/report.json", "w", encoding="utf-8") as f:
+            json.dump(report, f, indent=2)
+        mlflow.log_text(json.dumps(report, indent=2), "metrics/bonus_metrics.json")
 
-        pass  # xoa dong nay sau khi hoan thanh tat ca TODO ben tren
+        os.makedirs("models", exist_ok=True)
+        joblib.dump(model, "models/model.joblib")
 
-    # TODO 10: Tra ve f1
-    # return f1
+    return f1
 
 
 if __name__ == "__main__":
