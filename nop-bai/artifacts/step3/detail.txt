@@ -1,0 +1,15 @@
+Confusion matrix (rows=true, columns=predicted; labels=0,1):
+[[359, 17], [42, 82]]
+
+              precision    recall  f1-score   support
+
+     class_0       0.90      0.95      0.92       376
+     class_1       0.83      0.66      0.74       124
+
+    accuracy                           0.88       500
+   macro avg       0.86      0.81      0.83       500
+weighted avg       0.88      0.88      0.88       500
+
+Default threshold=0.5: F1=0.735426
+Best holdout threshold=0.30: F1=0.753731
+Threshold tuning uses this holdout; confirm on unseen data before production.

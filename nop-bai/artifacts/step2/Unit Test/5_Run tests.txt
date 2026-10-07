@@ -1,0 +1,131 @@
+﻿2026-10-07T13:07:40.4118631Z ##[group]Run python -m pytest tests/ -v
+2026-10-07T13:07:40.4119055Z [36;1mpython -m pytest tests/ -v[0m
+2026-10-07T13:07:40.4190786Z shell: /usr/bin/bash -e {0}
+2026-10-07T13:07:40.4191149Z env:
+2026-10-07T13:07:40.4191498Z   pythonLocation: /opt/hostedtoolcache/Python/3.10.22/x64
+2026-10-07T13:07:40.4192109Z   PKG_CONFIG_PATH: /opt/hostedtoolcache/Python/3.10.22/x64/lib/pkgconfig
+2026-10-07T13:07:40.4192724Z   Python_ROOT_DIR: /opt/hostedtoolcache/Python/3.10.22/x64
+2026-10-07T13:07:40.4193264Z   Python2_ROOT_DIR: /opt/hostedtoolcache/Python/3.10.22/x64
+2026-10-07T13:07:40.4193806Z   Python3_ROOT_DIR: /opt/hostedtoolcache/Python/3.10.22/x64
+2026-10-07T13:07:40.4194357Z   LD_LIBRARY_PATH: /opt/hostedtoolcache/Python/3.10.22/x64/lib
+2026-10-07T13:07:40.4194817Z ##[endgroup]
+2026-10-07T13:07:41.6698596Z ============================= test session starts ==============================
+2026-10-07T13:07:41.6700300Z platform linux -- Python 3.10.22, pytest-8.2.0, pluggy-1.6.0 -- /opt/hostedtoolcache/Python/3.10.22/x64/bin/python
+2026-10-07T13:07:41.6701295Z cachedir: .pytest_cache
+2026-10-07T13:07:41.6702266Z rootdir: /home/runner/work/K4-L3-DAY21-LeVanTai-2A202602464-CI-CD-for-AI-Systems/K4-L3-DAY21-LeVanTai-2A202602464-CI-CD-for-AI-Systems
+2026-10-07T13:07:41.6703311Z plugins: hydra-core-1.3.7, anyio-4.15.1
+2026-10-07T13:07:44.4825717Z collecting ... collected 17 items
+2026-10-07T13:07:44.4826649Z 
+2026-10-07T13:07:44.4842276Z tests/test_quality_gate.py::test_gate_accepts_passing_models[0.65] PASSED [  5%]
+2026-10-07T13:07:44.4853087Z tests/test_quality_gate.py::test_gate_accepts_passing_models[0.7149] PASSED [ 11%]
+2026-10-07T13:07:44.4862540Z tests/test_quality_gate.py::test_gate_accepts_passing_models[0.7354] PASSED [ 17%]
+2026-10-07T13:07:44.4873573Z tests/test_quality_gate.py::test_gate_rejects_bad_or_invalid_scores[0.6051] PASSED [ 23%]
+2026-10-07T13:07:44.4883906Z tests/test_quality_gate.py::test_gate_rejects_bad_or_invalid_scores[0.64] PASSED [ 29%]
+2026-10-07T13:07:44.4893419Z tests/test_quality_gate.py::test_gate_rejects_bad_or_invalid_scores[nan] PASSED [ 35%]
+2026-10-07T13:07:44.4902802Z tests/test_quality_gate.py::test_gate_rejects_bad_or_invalid_scores[inf] PASSED [ 41%]
+2026-10-07T13:07:44.4911858Z tests/test_quality_gate.py::test_gate_rejects_bad_or_invalid_scores[-1] PASSED [ 47%]
+2026-10-07T13:07:44.4920794Z tests/test_quality_gate.py::test_gate_rejects_bad_or_invalid_scores[1.01] PASSED [ 52%]
+2026-10-07T13:07:44.4931110Z tests/test_quality_gate.py::test_promotion_blocks_regression PASSED      [ 58%]
+2026-10-07T13:07:44.5486084Z tests/test_serve.py::test_health_and_both_prediction_labels PASSED       [ 64%]
+2026-10-07T13:07:44.5596374Z tests/test_serve.py::test_score_rejects_wrong_feature_count PASSED       [ 70%]
+2026-10-07T13:07:44.5695399Z tests/test_serve.py::test_score_rejects_non_numeric_feature PASSED       [ 76%]
+2026-10-07T13:07:44.6118194Z tests/test_serve.py::test_cloud_startup_downloads_model PASSED           [ 82%]
+2026-10-07T13:07:45.6603447Z tests/test_train.py::test_train_returns_float PASSED                     [ 88%]
+2026-10-07T13:07:45.7707407Z tests/test_train.py::test_report_file_created PASSED                     [ 94%]
+2026-10-07T13:07:45.8808384Z tests/test_train.py::test_model_file_created PASSED                      [100%]
+2026-10-07T13:07:45.8809187Z 
+2026-10-07T13:07:45.8809482Z =============================== warnings summary ===============================
+2026-10-07T13:07:45.8810485Z ../../../../../opt/hostedtoolcache/Python/3.10.22/x64/lib/python3.10/site-packages/starlette/formparsers.py:12
+2026-10-07T13:07:45.8812172Z   /opt/hostedtoolcache/Python/3.10.22/x64/lib/python3.10/site-packages/starlette/formparsers.py:12: PendingDeprecationWarning: Please use `import python_multipart` instead.
+2026-10-07T13:07:45.8813466Z     import multipart
+2026-10-07T13:07:45.8813712Z 
+2026-10-07T13:07:45.8814241Z ../../../../../opt/hostedtoolcache/Python/3.10.22/x64/lib/python3.10/site-packages/starlette/testclient.py:41
+2026-10-07T13:07:45.8816505Z   /opt/hostedtoolcache/Python/3.10.22/x64/lib/python3.10/site-packages/starlette/testclient.py:41: DeprecationWarning: The anyio.abc.BlockingPortal alias is deprecated, use anyio.from_thread.BlockingPortal instead.
+2026-10-07T13:07:45.8818572Z     [], typing.ContextManager[anyio.abc.BlockingPortal]
+2026-10-07T13:07:45.8818989Z 
+2026-10-07T13:07:45.8819631Z ../../../../../opt/hostedtoolcache/Python/3.10.22/x64/lib/python3.10/site-packages/mlflow/utils/requirements_utils.py:20
+2026-10-07T13:07:45.8821721Z   /opt/hostedtoolcache/Python/3.10.22/x64/lib/python3.10/site-packages/mlflow/utils/requirements_utils.py:20: DeprecationWarning: pkg_resources is deprecated as an API. See https://setuptools.pypa.io/en/latest/pkg_resources.html
+2026-10-07T13:07:45.8823320Z     import pkg_resources  # noqa: TID251
+2026-10-07T13:07:45.8823615Z 
+2026-10-07T13:07:45.8824089Z ../../../../../opt/hostedtoolcache/Python/3.10.22/x64/lib/python3.10/site-packages/mlflow/gateway/config.py:61
+2026-10-07T13:07:45.8827238Z   /opt/hostedtoolcache/Python/3.10.22/x64/lib/python3.10/site-packages/mlflow/gateway/config.py:61: PydanticDeprecatedSince20: Pydantic V1 style `@validator` validators are deprecated. You should migrate to Pydantic V2 style `@field_validator` validators, see the migration guide for more details. Deprecated in Pydantic V2.0 to be removed in V3.0. See Pydantic V2 Migration Guide at https://errors.pydantic.dev/2.13/migration/
+2026-10-07T13:07:45.8829833Z     @validator("togetherai_api_key", pre=True)
+2026-10-07T13:07:45.8830150Z 
+2026-10-07T13:07:45.8830624Z ../../../../../opt/hostedtoolcache/Python/3.10.22/x64/lib/python3.10/site-packages/mlflow/gateway/config.py:75
+2026-10-07T13:07:45.8833341Z   /opt/hostedtoolcache/Python/3.10.22/x64/lib/python3.10/site-packages/mlflow/gateway/config.py:75: PydanticDeprecatedSince20: Pydantic V1 style `@validator` validators are deprecated. You should migrate to Pydantic V2 style `@field_validator` validators, see the migration guide for more details. Deprecated in Pydantic V2.0 to be removed in V3.0. See Pydantic V2 Migration Guide at https://errors.pydantic.dev/2.13/migration/
+2026-10-07T13:07:45.8836322Z     @validator("cohere_api_key", pre=True)
+2026-10-07T13:07:45.8836613Z 
+2026-10-07T13:07:45.8837076Z ../../../../../opt/hostedtoolcache/Python/3.10.22/x64/lib/python3.10/site-packages/mlflow/gateway/config.py:83
+2026-10-07T13:07:45.8839803Z   /opt/hostedtoolcache/Python/3.10.22/x64/lib/python3.10/site-packages/mlflow/gateway/config.py:83: PydanticDeprecatedSince20: Pydantic V1 style `@validator` validators are deprecated. You should migrate to Pydantic V2 style `@field_validator` validators, see the migration guide for more details. Deprecated in Pydantic V2.0 to be removed in V3.0. See Pydantic V2 Migration Guide at https://errors.pydantic.dev/2.13/migration/
+2026-10-07T13:07:45.8842250Z     @validator("ai21labs_api_key", pre=True)
+2026-10-07T13:07:45.8842556Z 
+2026-10-07T13:07:45.8843000Z ../../../../../opt/hostedtoolcache/Python/3.10.22/x64/lib/python3.10/site-packages/mlflow/gateway/config.py:92
+2026-10-07T13:07:45.8845657Z   /opt/hostedtoolcache/Python/3.10.22/x64/lib/python3.10/site-packages/mlflow/gateway/config.py:92: PydanticDeprecatedSince20: Pydantic V1 style `@validator` validators are deprecated. You should migrate to Pydantic V2 style `@field_validator` validators, see the migration guide for more details. Deprecated in Pydantic V2.0 to be removed in V3.0. See Pydantic V2 Migration Guide at https://errors.pydantic.dev/2.13/migration/
+2026-10-07T13:07:45.8848218Z     @validator("mosaicml_api_key", pre=True)
+2026-10-07T13:07:45.8848507Z 
+2026-10-07T13:07:45.8848956Z ../../../../../opt/hostedtoolcache/Python/3.10.22/x64/lib/python3.10/site-packages/mlflow/gateway/config.py:122
+2026-10-07T13:07:45.8851616Z   /opt/hostedtoolcache/Python/3.10.22/x64/lib/python3.10/site-packages/mlflow/gateway/config.py:122: PydanticDeprecatedSince20: Pydantic V1 style `@validator` validators are deprecated. You should migrate to Pydantic V2 style `@field_validator` validators, see the migration guide for more details. Deprecated in Pydantic V2.0 to be removed in V3.0. See Pydantic V2 Migration Guide at https://errors.pydantic.dev/2.13/migration/
+2026-10-07T13:07:45.8854246Z     @validator("openai_api_key", pre=True)
+2026-10-07T13:07:45.8854530Z 
+2026-10-07T13:07:45.8854988Z ../../../../../opt/hostedtoolcache/Python/3.10.22/x64/lib/python3.10/site-packages/mlflow/gateway/config.py:179
+2026-10-07T13:07:45.8857955Z   /opt/hostedtoolcache/Python/3.10.22/x64/lib/python3.10/site-packages/mlflow/gateway/config.py:179: PydanticDeprecatedSince20: Pydantic V1 style `@validator` validators are deprecated. You should migrate to Pydantic V2 style `@field_validator` validators, see the migration guide for more details. Deprecated in Pydantic V2.0 to be removed in V3.0. See Pydantic V2 Migration Guide at https://errors.pydantic.dev/2.13/migration/
+2026-10-07T13:07:45.8860421Z     @validator("anthropic_api_key", pre=True)
+2026-10-07T13:07:45.8860728Z 
+2026-10-07T13:07:45.8861181Z ../../../../../opt/hostedtoolcache/Python/3.10.22/x64/lib/python3.10/site-packages/mlflow/gateway/config.py:187
+2026-10-07T13:07:45.8863956Z   /opt/hostedtoolcache/Python/3.10.22/x64/lib/python3.10/site-packages/mlflow/gateway/config.py:187: PydanticDeprecatedSince20: Pydantic V1 style `@validator` validators are deprecated. You should migrate to Pydantic V2 style `@field_validator` validators, see the migration guide for more details. Deprecated in Pydantic V2.0 to be removed in V3.0. See Pydantic V2 Migration Guide at https://errors.pydantic.dev/2.13/migration/
+2026-10-07T13:07:45.8866635Z     @validator("palm_api_key", pre=True)
+2026-10-07T13:07:45.8866925Z 
+2026-10-07T13:07:45.8867397Z ../../../../../opt/hostedtoolcache/Python/3.10.22/x64/lib/python3.10/site-packages/mlflow/gateway/config.py:227
+2026-10-07T13:07:45.8870202Z   /opt/hostedtoolcache/Python/3.10.22/x64/lib/python3.10/site-packages/mlflow/gateway/config.py:227: PydanticDeprecatedSince20: Pydantic V1 style `@validator` validators are deprecated. You should migrate to Pydantic V2 style `@field_validator` validators, see the migration guide for more details. Deprecated in Pydantic V2.0 to be removed in V3.0. See Pydantic V2 Migration Guide at https://errors.pydantic.dev/2.13/migration/
+2026-10-07T13:07:45.8872947Z     @validator("mistral_api_key", pre=True)
+2026-10-07T13:07:45.8873250Z 
+2026-10-07T13:07:45.8873722Z ../../../../../opt/hostedtoolcache/Python/3.10.22/x64/lib/python3.10/site-packages/mlflow/gateway/config.py:308
+2026-10-07T13:07:45.8876684Z   /opt/hostedtoolcache/Python/3.10.22/x64/lib/python3.10/site-packages/mlflow/gateway/config.py:308: PydanticDeprecatedSince20: Pydantic V1 style `@validator` validators are deprecated. You should migrate to Pydantic V2 style `@field_validator` validators, see the migration guide for more details. Deprecated in Pydantic V2.0 to be removed in V3.0. See Pydantic V2 Migration Guide at https://errors.pydantic.dev/2.13/migration/
+2026-10-07T13:07:45.8879083Z     @validator("provider", pre=True)
+2026-10-07T13:07:45.8879371Z 
+2026-10-07T13:07:45.8879830Z ../../../../../opt/hostedtoolcache/Python/3.10.22/x64/lib/python3.10/site-packages/mlflow/gateway/config.py:329
+2026-10-07T13:07:45.8882592Z   /opt/hostedtoolcache/Python/3.10.22/x64/lib/python3.10/site-packages/mlflow/gateway/config.py:329: PydanticDeprecatedSince20: Pydantic V1 style `@validator` validators are deprecated. You should migrate to Pydantic V2 style `@field_validator` validators, see the migration guide for more details. Deprecated in Pydantic V2.0 to be removed in V3.0. See Pydantic V2 Migration Guide at https://errors.pydantic.dev/2.13/migration/
+2026-10-07T13:07:45.8885159Z     @validator("config", pre=True)
+2026-10-07T13:07:45.8885412Z 
+2026-10-07T13:07:45.8886084Z ../../../../../opt/hostedtoolcache/Python/3.10.22/x64/lib/python3.10/site-packages/mlflow/gateway/config.py:369
+2026-10-07T13:07:45.8888755Z   /opt/hostedtoolcache/Python/3.10.22/x64/lib/python3.10/site-packages/mlflow/gateway/config.py:369: PydanticDeprecatedSince20: Pydantic V1 style `@validator` validators are deprecated. You should migrate to Pydantic V2 style `@field_validator` validators, see the migration guide for more details. Deprecated in Pydantic V2.0 to be removed in V3.0. See Pydantic V2 Migration Guide at https://errors.pydantic.dev/2.13/migration/
+2026-10-07T13:07:45.8891384Z     @validator("name")
+2026-10-07T13:07:45.8891582Z 
+2026-10-07T13:07:45.8892047Z ../../../../../opt/hostedtoolcache/Python/3.10.22/x64/lib/python3.10/site-packages/mlflow/gateway/config.py:379
+2026-10-07T13:07:45.8894745Z   /opt/hostedtoolcache/Python/3.10.22/x64/lib/python3.10/site-packages/mlflow/gateway/config.py:379: PydanticDeprecatedSince20: Pydantic V1 style `@validator` validators are deprecated. You should migrate to Pydantic V2 style `@field_validator` validators, see the migration guide for more details. Deprecated in Pydantic V2.0 to be removed in V3.0. See Pydantic V2 Migration Guide at https://errors.pydantic.dev/2.13/migration/
+2026-10-07T13:07:45.8897387Z     @validator("model", pre=True)
+2026-10-07T13:07:45.8897662Z 
+2026-10-07T13:07:45.8898185Z ../../../../../opt/hostedtoolcache/Python/3.10.22/x64/lib/python3.10/site-packages/mlflow/gateway/config.py:390
+2026-10-07T13:07:45.8900992Z   /opt/hostedtoolcache/Python/3.10.22/x64/lib/python3.10/site-packages/mlflow/gateway/config.py:390: PydanticDeprecatedSince20: Pydantic V1 style `@root_validator` validators are deprecated. You should migrate to Pydantic V2 style `@model_validator` validators, see the migration guide for more details. Deprecated in Pydantic V2.0 to be removed in V3.0. See Pydantic V2 Migration Guide at https://errors.pydantic.dev/2.13/migration/
+2026-10-07T13:07:45.8903465Z     @root_validator(skip_on_failure=True)
+2026-10-07T13:07:45.8903762Z 
+2026-10-07T13:07:45.8904214Z ../../../../../opt/hostedtoolcache/Python/3.10.22/x64/lib/python3.10/site-packages/mlflow/gateway/config.py:412
+2026-10-07T13:07:45.8907051Z   /opt/hostedtoolcache/Python/3.10.22/x64/lib/python3.10/site-packages/mlflow/gateway/config.py:412: PydanticDeprecatedSince20: Pydantic V1 style `@validator` validators are deprecated. You should migrate to Pydantic V2 style `@field_validator` validators, see the migration guide for more details. Deprecated in Pydantic V2.0 to be removed in V3.0. See Pydantic V2 Migration Guide at https://errors.pydantic.dev/2.13/migration/
+2026-10-07T13:07:45.8909745Z     @validator("route_type", pre=True)
+2026-10-07T13:07:45.8910012Z 
+2026-10-07T13:07:45.8910454Z ../../../../../opt/hostedtoolcache/Python/3.10.22/x64/lib/python3.10/site-packages/mlflow/gateway/config.py:418
+2026-10-07T13:07:45.8913158Z   /opt/hostedtoolcache/Python/3.10.22/x64/lib/python3.10/site-packages/mlflow/gateway/config.py:418: PydanticDeprecatedSince20: Pydantic V1 style `@validator` validators are deprecated. You should migrate to Pydantic V2 style `@field_validator` validators, see the migration guide for more details. Deprecated in Pydantic V2.0 to be removed in V3.0. See Pydantic V2 Migration Guide at https://errors.pydantic.dev/2.13/migration/
+2026-10-07T13:07:45.8915535Z     @validator("limit", pre=True)
+2026-10-07T13:07:45.8915953Z 
+2026-10-07T13:07:45.8916426Z ../../../../../opt/hostedtoolcache/Python/3.10.22/x64/lib/python3.10/site-packages/mlflow/gateway/config.py:468
+2026-10-07T13:07:45.8918663Z   /opt/hostedtoolcache/Python/3.10.22/x64/lib/python3.10/site-packages/mlflow/gateway/config.py:468: PydanticDeprecatedSince20: Support for class-based `config` is deprecated, use ConfigDict instead. Deprecated in Pydantic V2.0 to be removed in V3.0. See Pydantic V2 Migration Guide at https://errors.pydantic.dev/2.13/migration/
+2026-10-07T13:07:45.8920601Z     class Route(ConfigModel):
+2026-10-07T13:07:45.8920839Z 
+2026-10-07T13:07:45.8921065Z tests/test_train.py::test_train_returns_float
+2026-10-07T13:07:45.8921536Z tests/test_train.py::test_report_file_created
+2026-10-07T13:07:45.8922011Z tests/test_train.py::test_model_file_created
+2026-10-07T13:07:45.8923449Z   /opt/hostedtoolcache/Python/3.10.22/x64/lib/python3.10/importlib/__init__.py:126: DeprecationWarning: The distutils package is deprecated and slated for removal in Python 3.12. Use setuptools or check PEP 632 for potential alternatives
+2026-10-07T13:07:45.8925242Z     return _bootstrap._gcd_import(name[level:], package, level)
+2026-10-07T13:07:45.8925728Z 
+2026-10-07T13:07:45.8926087Z tests/test_train.py::test_report_file_created
+2026-10-07T13:07:45.8926557Z tests/test_train.py::test_model_file_created
+2026-10-07T13:07:45.8929365Z   /opt/hostedtoolcache/Python/3.10.22/x64/lib/python3.10/site-packages/_distutils_hack/__init__.py:15: UserWarning: Distutils was imported before Setuptools, but importing Setuptools also replaces the `distutils` module in `sys.modules`. This may lead to undesirable behaviors or errors. To avoid these issues, avoid using distutils directly, ensure that setuptools is installed in the traditional way (e.g. not an editable install), and/or make sure that setuptools is always imported before distutils.
+2026-10-07T13:07:45.8932216Z     warnings.warn(
+2026-10-07T13:07:45.8932407Z 
+2026-10-07T13:07:45.8932585Z tests/test_train.py::test_report_file_created
+2026-10-07T13:07:45.8933059Z tests/test_train.py::test_model_file_created
+2026-10-07T13:07:45.8935148Z   /opt/hostedtoolcache/Python/3.10.22/x64/lib/python3.10/site-packages/_distutils_hack/__init__.py:30: UserWarning: Setuptools is replacing distutils. Support for replacing an already imported distutils is deprecated. In the future, this condition will fail. Register concerns at https://github.com/pypa/setuptools/issues/new?template=distutils-deprecation.yml
+2026-10-07T13:07:45.8937434Z     warnings.warn(
+2026-10-07T13:07:45.8937612Z 
+2026-10-07T13:07:45.8937900Z -- Docs: https://docs.pytest.org/en/stable/how-to/capture-warnings.html
+2026-10-07T13:07:45.8938598Z ======================= 17 passed, 26 warnings in 4.21s ========================

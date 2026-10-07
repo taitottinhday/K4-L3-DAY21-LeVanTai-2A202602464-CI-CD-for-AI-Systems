@@ -1,0 +1,23 @@
+{
+  "f1_score": 0.7354260089686099,
+  "accuracy": 0.882,
+  "precision": 0.8282828282828283,
+  "recall": 0.6612903225806451,
+  "best_threshold": 0.3,
+  "best_f1_score": 0.753731343283582,
+  "positive_rate": 0.24784222530298286,
+  "drift_delta": 0.00015777469701713787,
+  "drift_warning": false,
+  "confusion_matrix": [
+    [
+      359,
+      17
+    ],
+    [
+      42,
+      82
+    ]
+  ],
+  "train_samples": 44722,
+  "eval_samples": 500
+}

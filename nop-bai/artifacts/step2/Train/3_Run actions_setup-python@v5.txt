@@ -1,0 +1,23 @@
+﻿2026-10-07T13:07:56.2227757Z ##[group]Run actions/setup-python@v5
+2026-10-07T13:07:56.2228405Z with:
+2026-10-07T13:07:56.2228947Z   python-version: 3.10
+2026-10-07T13:07:56.2229514Z   cache: pip
+2026-10-07T13:07:56.2230280Z   check-latest: false
+2026-10-07T13:07:56.2232678Z   token: ***
+2026-10-07T13:07:56.2233259Z   update-environment: true
+2026-10-07T13:07:56.2233893Z   allow-prereleases: false
+2026-10-07T13:07:56.2234472Z   freethreaded: false
+2026-10-07T13:07:56.2235025Z env:
+2026-10-07T13:07:56.2235627Z   ARTIFACT_BUCKET: ***
+2026-10-07T13:07:56.2236209Z   AWS_REGION: ap-southeast-1
+2026-10-07T13:07:56.2236823Z   MLFLOW_TRACKING_URI: sqlite:///mlflow.db
+2026-10-07T13:07:56.2237457Z   MLFLOW_ARTIFACT_ROOT: ./mlartifacts
+2026-10-07T13:07:56.2238043Z ##[endgroup]
+2026-10-07T13:07:56.3311982Z ##[group]Installed versions
+2026-10-07T13:07:56.3389477Z (node:2091) [DEP0040] DeprecationWarning: The `punycode` module is deprecated. Please use a userland alternative instead.
+2026-10-07T13:07:56.3390928Z (Use `node --trace-deprecation ...` to show where the warning was created)
+2026-10-07T13:07:56.3391971Z Successfully set up CPython (3.10.21)
+2026-10-07T13:07:56.3392982Z ##[endgroup]
+2026-10-07T13:07:56.3961238Z [command]/opt/hostedtoolcache/Python/3.10.21/x64/bin/pip cache dir
+2026-10-07T13:07:56.8751401Z /home/runner/.cache/pip
+2026-10-07T13:07:56.9527399Z pip cache is not found

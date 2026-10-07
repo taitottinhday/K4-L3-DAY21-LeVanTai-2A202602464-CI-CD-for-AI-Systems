@@ -1,0 +1,31 @@
+﻿2026-10-07T13:08:40.3085625Z ##[group]Run aws-actions/configure-aws-credentials@v4
+2026-10-07T13:08:40.3085914Z with:
+2026-10-07T13:08:40.3086262Z   role-to-assume: ***
+2026-10-07T13:08:40.3086466Z   aws-region: ap-southeast-1
+2026-10-07T13:08:40.3086690Z   audience: sts.amazonaws.com
+2026-10-07T13:08:40.3086905Z   output-env-credentials: true
+2026-10-07T13:08:40.3087101Z env:
+2026-10-07T13:08:40.3087319Z   ARTIFACT_BUCKET: ***
+2026-10-07T13:08:40.3087513Z   AWS_REGION: ap-southeast-1
+2026-10-07T13:08:40.3087730Z   MLFLOW_TRACKING_URI: sqlite:///mlflow.db
+2026-10-07T13:08:40.3087970Z   MLFLOW_ARTIFACT_ROOT: ./mlartifacts
+2026-10-07T13:08:40.3088234Z   pythonLocation: /opt/hostedtoolcache/Python/3.10.21/x64
+2026-10-07T13:08:40.3088572Z   PKG_CONFIG_PATH: /opt/hostedtoolcache/Python/3.10.21/x64/lib/pkgconfig
+2026-10-07T13:08:40.3088905Z   Python_ROOT_DIR: /opt/hostedtoolcache/Python/3.10.21/x64
+2026-10-07T13:08:40.3089201Z   Python2_ROOT_DIR: /opt/hostedtoolcache/Python/3.10.21/x64
+2026-10-07T13:08:40.3089671Z   Python3_ROOT_DIR: /opt/hostedtoolcache/Python/3.10.21/x64
+2026-10-07T13:08:40.3090182Z   LD_LIBRARY_PATH: /opt/hostedtoolcache/Python/3.10.21/x64/lib
+2026-10-07T13:08:40.3090507Z ##[endgroup]
+2026-10-07T13:08:40.4706217Z Assuming role with OIDC
+2026-10-07T13:08:41.1831543Z Assuming role with OIDC
+2026-10-07T13:08:41.4218111Z Assuming role with OIDC
+2026-10-07T13:08:41.7417311Z Assuming role with OIDC
+2026-10-07T13:08:42.1764709Z Assuming role with OIDC
+2026-10-07T13:08:43.1605841Z Assuming role with OIDC
+2026-10-07T13:08:44.2025967Z Assuming role with OIDC
+2026-10-07T13:08:46.4414665Z Assuming role with OIDC
+2026-10-07T13:08:52.3623342Z Assuming role with OIDC
+2026-10-07T13:09:00.3838797Z Assuming role with OIDC
+2026-10-07T13:09:09.7936962Z Assuming role with OIDC
+2026-10-07T13:09:26.9735533Z Assuming role with OIDC
+2026-10-07T13:09:47.2438872Z ##[error]Could not assume role with OIDC: Not authorized to perform sts:AssumeRoleWithWebIdentity

@@ -1,0 +1,8 @@
+﻿2026-10-07T13:07:46.3285552Z Post job cleanup.
+2026-10-07T13:07:46.4578107Z (node:2450) [DEP0040] DeprecationWarning: The `punycode` module is deprecated. Please use a userland alternative instead.
+2026-10-07T13:07:46.4579531Z (Use `node --trace-deprecation ...` to show where the warning was created)
+2026-10-07T13:07:46.4844683Z [command]/usr/bin/tar --posix -cf cache.tzst --exclude cache.tzst -P -C /home/runner/work/K4-L3-DAY21-LeVanTai-2A202602464-CI-CD-for-AI-Systems/K4-L3-DAY21-LeVanTai-2A202602464-CI-CD-for-AI-Systems --files-from manifest.txt --use-compress-program zstdmt
+2026-10-07T13:07:47.0724791Z (node:2450) [DEP0169] DeprecationWarning: `url.parse()` behavior is not standardized and prone to errors that have security implications. Use the WHATWG URL API instead. CVEs are not issued for `url.parse()` vulnerabilities.
+2026-10-07T13:07:48.0552374Z Sent 103361121 of 237578849 (43.5%), 98.7 MBs/sec
+2026-10-07T13:07:48.1450970Z Sent 237578849 of 237578849 (100.0%), 208.1 MBs/sec
+2026-10-07T13:07:48.3037572Z Cache saved with the key: setup-python-Linux-x64-24.04-Ubuntu-python-3.10.22-pip-91ec4d952808b435c66721e284a7519c5d5901fde2cc82dfe8bf8a1cac80e6f2
